@@ -24,4 +24,4 @@ chmod +x /usr/local/bin/phpunit
 docker-php-ext-install pdo_mysql
 
 # Checking if MySQL is installed
-dpkg --get-selections | grep mysql
+locate mysql
