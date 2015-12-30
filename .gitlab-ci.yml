@@ -1,0 +1,21 @@
+image: php:5.6-fpm
+services:
+  - mysql
+
+variables:
+  # Configure mysql service (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: wordpress_tests
+  MYSQL_ROOT_PASSWORD: mysql
+
+
+before_script:
+    - php --version
+    - bash bin/docker_install.sh > /dev/null
+    - bash bin/install-wp-tests.sh wordpress_tests root mysql localhost trunk
+stages:
+  - test
+
+test:
+  script:
+  - find . \( -name '*.php' \) -exec php -lf {} \;
+  - phpunit --configuration phpunit.xml.dist
