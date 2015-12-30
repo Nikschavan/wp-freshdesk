@@ -18,4 +18,4 @@ stages:
 test:
   script:
   - find . \( -name '*.php' \) -exec php -lf {} \;
-  - phpunit --configuration phpunit.xml.dist
+  - phpunit --configuration phpunit.xml
