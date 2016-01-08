@@ -15,6 +15,9 @@ apt-get install zip unzip -yqq
 apt-get install subversion -yqq
 apt-get install libapache2-svn -yqq
 
+# Install all project dependencies
+php composer.phar install
+
 # Install phpunit, the tool that we will use for testing
 curl -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
 chmod +x /usr/local/bin/phpunit
