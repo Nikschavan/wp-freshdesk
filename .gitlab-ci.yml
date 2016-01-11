@@ -10,7 +10,6 @@ variables:
 
 before_script:
     - php --version
-    - bash bin/docker_install.sh > /dev/null
     - bash bin/install_gitlab_tests.sh wordpress_tests root mysql mysql trunk
 stages:
   - test

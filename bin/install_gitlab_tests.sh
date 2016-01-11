@@ -99,27 +99,33 @@ install_test_suite() {
 
 }
 
-install_db() {
-	# parse DB_HOST for port or socket references
-	local PARTS=(${DB_HOST//\:/ })
-	local DB_HOSTNAME=${PARTS[0]};
-	local DB_SOCK_OR_PORT=${PARTS[1]};
-	local EXTRA=""
 
-	if ! [ -z $DB_HOSTNAME ] ; then
-		if [ $(echo $DB_SOCK_OR_PORT | grep -e '^[0-9]\{1,\}$') ]; then
-			EXTRA=" --host=$DB_HOSTNAME --port=$DB_SOCK_OR_PORT --protocol=tcp"
-		elif ! [ -z $DB_SOCK_OR_PORT ] ; then
-			EXTRA=" --socket=$DB_SOCK_OR_PORT"
-		elif ! [ -z $DB_HOSTNAME ] ; then
-			EXTRA=" --host=$DB_HOSTNAME --protocol=tcp"
-		fi
-	fi
+setup_gitlab_test_runner() {
+	# We need to install dependencies only for Docker
+	[[ ! -e /.dockerinit ]] && exit 0
 
-	# create database
-	#mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+	set -xe
+
+	# Install git (the php image doesn't have it) which is required by composer
+	apt-get update -yqq
+	apt-get install git -yqq
+
+	# Install subversion
+	# apt-get update -yqq
+	apt-get install zip unzip -yqq
+	apt-get install subversion -yqq
+	apt-get install libapache2-svn -yqq
+
+	# Install phpunit, the tool that we will use for testing
+	curl -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
+	chmod +x /usr/local/bin/phpunit
+
+	# Install mysql driver
+	# Here you can install any other extension that you need
+	docker-php-ext-install mysqli
+	docker-php-ext-install pdo_mysql
 }
 
+setup_gitlab_test_runner
 install_wp
 install_test_suite
-#install_db
