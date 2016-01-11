@@ -10,18 +10,20 @@ variables:
 
 before_script:
     - php --version
-    - bash bin/install_gitlab_tests.sh wordpress_tests root mysql mysql trunk
+
 stages:
   - test
+
+test:PHP5.3:MySQL:
+  image: tetraweb/php:5.3
+  script:
+  - bash bin/install_gitlab_tests.sh wordpress_tests root mysql mysql latest
+  - find . \( -name '*.php' \) -exec php -lf {} \;
+  - phpunit --configuration phpunit.xml
 
 # We test PHP5.6 (the default) with MySQL
 test:PHP5.6:MySQL:
   script:
-  - find . \( -name '*.php' \) -exec php -lf {} \;
-  - phpunit --configuration phpunit.xml
-
-test:PHP7:MySQL:
-  image: php:7
-  script:
+  - bash bin/install_gitlab_tests.sh wordpress_tests root mysql mysql latest
   - find . \( -name '*.php' \) -exec php -lf {} \;
   - phpunit --configuration phpunit.xml
