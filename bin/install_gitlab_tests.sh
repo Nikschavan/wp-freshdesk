@@ -100,7 +100,7 @@ install_test_suite() {
 }
 
 
-setup_gitlab_test_runner() {
+install_gitlab_test_runner() {
 	# We need to install dependencies only for Docker
 	[[ ! -e /.dockerinit ]] && exit 0
 
@@ -121,11 +121,9 @@ setup_gitlab_test_runner() {
 	chmod +x /usr/local/bin/phpunit
 
 	# Install mysql driver
-	# Here you can install any other extension that you need
-	docker-php-ext-install mysqli
-	docker-php-ext-install pdo_mysql
+	docker-php-ext-install mysqli	
 }
 
-setup_gitlab_test_runner
+install_gitlab_test_runner
 install_wp
 install_test_suite
