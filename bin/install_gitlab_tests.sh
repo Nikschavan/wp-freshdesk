@@ -101,15 +101,10 @@ install_gitlab_test_runner() {
 
 	set -xe
 
-	# Install git (the php image doesn't have it) which is required by composer
-	apt-get update -yqq
-	apt-get install git -yqq
+	apt-get -yqq update
 
-	# Install subversion
-	# apt-get update -yqq
-	apt-get install zip unzip -yqq
-	apt-get install subversion -yqq
-	apt-get install libapache2-svn -yqq
+	# instll the required packages for the running CI tests
+	apt-get -yqq install git zip unzip subversion libapache2-svn
 
 	# Install phpunit, the tool that we will use for testing
 	curl -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
