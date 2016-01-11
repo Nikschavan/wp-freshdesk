@@ -23,3 +23,6 @@ chmod +x /usr/local/bin/phpunit
 # Here you can install any other extension that you need
 docker-php-ext-install mysqli
 docker-php-ext-install pdo_mysql
+
+# IP address of docker
+docker-machine ip default
