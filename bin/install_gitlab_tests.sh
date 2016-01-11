@@ -16,10 +16,8 @@ WP_CORE_DIR=${WP_CORE_DIR-/tmp/wordpress/}
 
 download() {
     if [ `which curl` ]; then
-    	echo "using curl"
         curl -s "$1" > "$2";
     elif [ `which wget` ]; then
-    	echo "using wget"
         wget -nv -O "$2" "$1"
     fi
 }
@@ -62,13 +60,10 @@ install_wp() {
 			local ARCHIVE_NAME="wordpress-$WP_VERSION"
 		fi
 		download https://wordpress.org/${ARCHIVE_NAME}.tar.gz  /tmp/wordpress.tar.gz
-		ls -l /tmp/
-		ls -l /tmp/wordpress/
 		tar --strip-components=1 -zxmf /tmp/wordpress.tar.gz -C $WP_CORE_DIR
-	fi 
+	fi
 
 	download https://raw.github.com/markoheijnen/wp-mysqli/master/db.php $WP_CORE_DIR/wp-content/db.php
-	ls -l $WP_CORE_DIR/wp-content/
 }
 
 install_test_suite() {
