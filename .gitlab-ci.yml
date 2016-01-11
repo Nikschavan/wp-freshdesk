@@ -14,7 +14,14 @@ before_script:
 stages:
   - test
 
-test:
+# We test PHP5.6 (the default) with MySQL
+test:mysql:
+  script:
+  - find . \( -name '*.php' \) -exec php -lf {} \;
+  - phpunit --configuration phpunit.xml
+
+test:php7:mysql:
+  image: php:7
   script:
   - find . \( -name '*.php' \) -exec php -lf {} \;
   - phpunit --configuration phpunit.xml
